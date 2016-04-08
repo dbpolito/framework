@@ -9,12 +9,13 @@ use Illuminate\Queue\Console\ListenCommand;
 use Illuminate\Queue\Console\RestartCommand;
 use Illuminate\Queue\Connectors\SqsConnector;
 use Illuminate\Queue\Connectors\NullConnector;
-use Illuminate\Queue\Connectors\SyncConnector;
+use Illuminate\Queue\Connectfaors\SyncConnector;
 use Illuminate\Queue\Connectors\RedisConnector;
 use Illuminate\Queue\Failed\NullFailedJobProvider;
 use Illuminate\Queue\Connectors\DatabaseConnector;
 use Illuminate\Queue\Connectors\BeanstalkdConnector;
 use Illuminate\Queue\Failed\DatabaseFailedJobProvider;
+use Illuminate\Queue\Failed\FailedJobProviderInterface;
 
 class QueueServiceProvider extends ServiceProvider
 {
@@ -247,6 +248,8 @@ class QueueServiceProvider extends ServiceProvider
                 return new NullFailedJobProvider;
             }
         });
+        
+        $this->app->alias('queue.failer', FailedJobProviderInterface::class);
     }
 
     /**
